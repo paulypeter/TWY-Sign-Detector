@@ -59,14 +59,14 @@ def get_colour_percent_for_column(column_colour_perc, colour):
         return column_colour_perc[colour.tobytes()]
     return 0
 
-def get_boundaries(imgobj):
+def get_boundaries(imgobj, percents_dict):
     width, height = imgobj.shape[1::-1]
     borders = []
     current_colour = np.array([128, 128, 128])
     last_colour = np.array([128, 128, 128])
     for i in range(width):
-        current = get_main_colour(percents[i])
-        last = get_main_colour(percents[i - 1])
+        current = get_main_colour(percents_dict[i])
+        last = get_main_colour(percents_dict[i - 1])
         if current is not None:
             current = eval(current)
             current_colour = np.array(current)
@@ -101,15 +101,12 @@ def get_colour_name(colour):
 # convert crops to greyscale
 # test OCR on greyscale img
 # test on inverted img -> no improvement with WPOD OCR net
-if __name__ == "__main__":
-    imgpath = "samples/test/0002_lp.png"
-    # imgpath = "samples/test/011.jpg"
-    img = cv2.imread(imgpath)
+def segmenting(img):
     width, height = img.shape[1::-1]
     avs, percents = scan_image(img)
-    #detect_edge(avs)
     black = np.array([0, 0, 0])
-    borders = get_boundaries(img)
+    borders = get_boundaries(img, percents)
+    segments = []
     # crop: save type to filename
     for i in range(len(borders) - 1):
         bg = get_main_colour(
@@ -120,9 +117,7 @@ if __name__ == "__main__":
             ]
         )
         crop = img[0:height, borders[i]:borders[i + 1]]
-        gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
-        gray_inv = cv2.bitwise_not(gray)
-        cv2.imwrite(f"crop_{i}.png", crop)
-        cv2.imwrite(f"crop_{i}_gray.png", gray)
-        cv2.imwrite(f"crop_{i}_gray_inv.png", gray_inv)
-    print(len(borders))
+        # cv2.imwrite(f"crop_{i}_{bg}.png", crop)
+        segments.append((bg, crop))
+    print(f'{len(borders)} borders detected')
+    return segments
