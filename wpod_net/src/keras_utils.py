@@ -5,9 +5,9 @@ import time
 
 from os.path import splitext
 
-from src.label import Label
-from src.utils import getWH, nms
-from src.projection_utils import getRectPts, find_T_matrix
+from .label import Label
+from .utils import getWH, nms
+from .projection_utils import getRectPts, find_T_matrix
 
 
 class DLabel (Label):

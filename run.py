@@ -1,0 +1,1 @@
+from wpod_net import license_plate_detection

@@ -3,12 +3,12 @@ import keras
 import cv2
 import traceback
 
-from src.keras_utils 			import load_model
+from .src.keras_utils 			import load_model
 from glob 						import glob
 from os.path 					import splitext, basename
-from src.utils 					import im2single
-from src.keras_utils 			import load_model, detect_lp
-from src.label 					import Shape, writeShapes
+from .src.utils 					import im2single
+from .src.keras_utils 			import load_model, detect_lp
+from .src.label 					import Shape, writeShapes
 
 
 def adjust_pts(pts,lroi):
