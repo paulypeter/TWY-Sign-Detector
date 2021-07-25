@@ -15,11 +15,9 @@ def adjust_pts(pts,lroi):
 	return pts*lroi.wh().reshape((2,1)) + lroi.tl().reshape((2,1))
 
 
-if __name__ == '__main__':
-
+def detect(input_dir):
 	try:
 		
-		input_dir  = sys.argv[1]
 		output_dir = input_dir
 
 		lp_threshold = .5
@@ -57,8 +55,6 @@ if __name__ == '__main__':
 
 	except:
 		traceback.print_exc()
-		sys.exit(1)
 
-	sys.exit(0)
 
 
